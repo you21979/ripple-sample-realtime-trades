@@ -9,17 +9,19 @@ var FIAT_CURRENCIES = [
     'AUD',
     'NZD',
     'USD'
-]
+];
 
 var OTHER_CURRENCIES = [
     'BTC',
     'LTC',
     'STR',
     'XRP'
-]
+];
+
+var URL_GATEWAY_LIST = 'https://raw.githubusercontent.com/you21979/ripple-gateway-list/master/list/list.json';
 
 var initialize = module.exports = function(){
-    return rp('https://raw.githubusercontent.com/you21979/ripple-gateway-list/master/list/list.json').then(JSON.parse).then(function(data){
+    return rp(URL_GATEWAY_LIST).then(JSON.parse).then(function(data){
         var p = new PairsDatabase();
         data.forEach(function(v){
             var w = Object.keys(v.assets).map(function(key){
