@@ -7,6 +7,7 @@
     "bluebird":"",
     "request-promise":"",
     "moment":"",
+    "redis":"",
     "ripple-lib":""
   },
   "readmeFilename": "README.md",
