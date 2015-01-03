@@ -1,7 +1,7 @@
 var ripple = require('ripple-lib'),
     Amount = ripple.Amount;
 
-var offerutil = require('./offer_util');
+var offerutil = require('./util/offer_util');
 
 var makeFromNode = exports.makeFromNode = function (node, pairs) {
     var gets = Amount.from_json(node.TakerGets),

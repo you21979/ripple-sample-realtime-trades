@@ -6,8 +6,8 @@
   "dependencies": {
     "bluebird":"",
     "request-promise":"",
-    "ripple-lib":"",
-    "ripple-lib-promise":"git://github.com/you21979/node-ripple-lib-promise.git"
+    "moment":"",
+    "ripple-lib":""
   },
   "readmeFilename": "README.md",
   "description": "this is sample project",

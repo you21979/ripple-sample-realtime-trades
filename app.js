@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 var util = require('util');
-var RipplePromise = require('ripple-lib-promise');
-var Promise = RipplePromise.promise();
 var TXTrades = require('./tx_trades');
 
 var GatewayList = require('./gateway_list');
+var connectUtil = require('./util/connect_util');
 
 
-RipplePromise.promiseConnect().then(function(remote){
+connectUtil.connect(30).then(function(remote){
 
     GatewayList().then(function(gateway){
 
