@@ -1,4 +1,5 @@
 var order = require('./order');
+var timeUtil = require('../util/time_util');
 
 var filterNodeTrades = function(){
     return function(v){
@@ -10,7 +11,6 @@ var filterNodeTrades = function(){
 var mapTrades = function(tx, gateway_list){
     return function(v){
         var o = order.makeFromNode(v.fields, gateway_list);
-
         return {
             order : o,
             pair: o.getPair(),
@@ -28,6 +28,7 @@ var mapTrades = function(tx, gateway_list){
                 stakeholder:[],
             },
             hash:tx.transaction.hash,
+            time:timeUtil.rippleTimeToMoment(tx.transaction.date),
         }
     }
 }
@@ -38,7 +39,7 @@ var filterTradesZero = function(){
     }
 }
 
-var trades = exports.trades = function(tx, gateway_list){
+var trades = module.exports = function(tx, gateway_list){
     switch(tx.transaction.TransactionType){
     case "OfferCreate":
     case "Payment":
