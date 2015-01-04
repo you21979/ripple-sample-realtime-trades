@@ -9,6 +9,7 @@ var cli = redis.createClient();
 
 connectUtil.connect(30).then(function(remote){
     GatewayList().then(function(gateway){
+
         remote.on('transaction_all', function(v){
             if(v.engine_result_code !== 0)  return;
 
