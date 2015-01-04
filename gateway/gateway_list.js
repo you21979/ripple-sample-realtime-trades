@@ -14,6 +14,8 @@ var FIAT_CURRENCIES = [
 var OTHER_CURRENCIES = [
     'BTC',
     'LTC',
+    'XAU',
+    'XAG',
     'STR',
     'XRP'
 ];
