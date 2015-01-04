@@ -3,10 +3,19 @@ var ripple = require('ripple-lib'),
 
 var offerutil = require('./offer_util');
 
-var makeFromNode = exports.makeFromNode = function (node, pairs) {
+var makeFromNode = exports.makeFromNode = function (node, prev, pairs) {
     var gets = Amount.from_json(node.TakerGets),
         pays = Amount.from_json(node.TakerPays),
         type, base, counter;
+
+    if('TakerGets' in prev){
+        var pgets = Amount.from_json(prev.TakerGets);
+        gets = pgets.subtract(node.TakerGets)
+    }
+    if('TakerPays' in prev){
+        var ppays = Amount.from_json(prev.TakerPays);
+        pays = ppays.subtract(node.TakerPays)
+    }
 
     if(offerutil.makeCurrencyPair(gets, pays, true) in pairs){
         type = "bid";

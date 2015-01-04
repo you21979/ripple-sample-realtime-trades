@@ -14,6 +14,13 @@ cli.hgetall(key, function(err, data){
 cli.subscribe(key);
 
 cli.on('message', function(key, data){
-    console.log(JSON.parse(data))
+    var trades = JSON.parse(data);
+    console.log({
+        pair:trades.pairfull,
+        type:trades.type,
+        price:Math.floor(trades.price*1000000)/1000000,
+        amount:trades.amount,
+        time:trades.time,
+    })
 })
 

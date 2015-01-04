@@ -1,16 +1,17 @@
 var order = require('./order');
 var timeUtil = require('../util/time_util');
 
-var filterNodeTrades = function(){
+var filterNodeTrades = function(tx){
     return function(v){
-        return v.entryType === 'Offer'
+        return tx.transaction.Account !== v.fields.Account
+            && v.entryType === 'Offer'
             && (v.nodeType == 'ModifiedNode' || v.nodeType == 'DeletedNode')
     }
 }
 
 var mapTrades = function(tx, gateway_list){
     return function(v){
-        var o = order.makeFromNode(v.fields, gateway_list);
+        var o = order.makeFromNode(v.fields, v.fieldsPrev, gateway_list);
         return {
             order : o,
             pair: o.getPair(),
@@ -25,7 +26,7 @@ var mapTrades = function(tx, gateway_list){
             nodetype:v.nodeType,
             account:{
                 trigger:tx.transaction.Account,
-                stakeholder:[],
+                stakeholder:[tx.transaction.Account, v.fields.Account],
             },
             hash:tx.transaction.hash,
             time:timeUtil.rippleTimeToMoment(tx.transaction.date),
@@ -43,8 +44,8 @@ var trades = module.exports = function(tx, gateway_list){
     switch(tx.transaction.TransactionType){
     case "OfferCreate":
     case "Payment":
-        return tx.mmeta.nodes.
-            filter(filterNodeTrades()).
+        return tx.mmeta.
+            filter(filterNodeTrades(tx)).
             map(mapTrades(tx, gateway_list)).
             filter(filterTradesZero())
     default:
